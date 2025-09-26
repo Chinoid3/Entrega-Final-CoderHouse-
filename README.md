@@ -167,3 +167,4 @@ blog_project/
 ## Apartados proximamente en desarrollo
 - Message
 - UserProfile
+- AboutMe
