@@ -136,8 +136,6 @@ blog_project/
    - Aplicación web: http://127.0.0.1:8000/
    - Panel de administración: http://127.0.0.1:8000/admin/
 
-## Modelos de Datos
-
 ### Pagina (Modelo Principal)
 - `title`: Título de la página (CharField)
 - `subtitle`: Subtítulo de la página (CharField)
@@ -166,12 +164,6 @@ blog_project/
 - `is_read`: Estado de lectura (BooleanField)
 - `created_at`: Fecha de creación (DateTimeField)
 
-## Video de Demostración
-
-Se incluye un video de máximo 10 minutos que muestra:
-- La página de inicio y navegación
-- Sistema de registro y login
-- Creación, edición y eliminación de páginas
-- Sistema de mensajería
-- Perfiles de usuario
-- Panel de administración
+## Apartados proximamente en desarrollo
+- Message
+- UserProfile
