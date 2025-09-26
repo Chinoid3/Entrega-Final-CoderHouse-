@@ -138,7 +138,7 @@ blog_project/
 
 ## Modelos de Datos
 
-### Page (Modelo Principal)
+### Pagina (Modelo Principal)
 - `title`: Título de la página (CharField)
 - `subtitle`: Subtítulo de la página (CharField)
 - `content`: Contenido en texto enriquecido (RichTextField)
@@ -165,24 +165,6 @@ blog_project/
 - `content`: Contenido del mensaje (TextField)
 - `is_read`: Estado de lectura (BooleanField)
 - `created_at`: Fecha de creación (DateTimeField)
-
-### 🎯 Rutas Implementadas
-
-- `/` - Página de inicio
-- `/about/` - Acerca de mí
-- `/pages/` - Listado de páginas
-- `/pages/<id>/` - Detalle de página
-- `/pages/create/` - Crear página
-- `/pages/<id>/edit/` - Editar página
-- `/pages/<id>/delete/` - Eliminar página
-- `/accounts/login/` - Iniciar sesión
-- `/accounts/logout/` - Cerrar sesión
-- `/accounts/register/` - Registrarse
-- `/accounts/profile/` - Mi perfil
-- `/accounts/profile/edit/` - Editar perfil
-- `/messaging/` - Lista de mensajes
-- `/messaging/send/` - Enviar mensaje
-- `/messaging/message/<id>/` - Detalle de mensaje
 
 ## Video de Demostración
 
