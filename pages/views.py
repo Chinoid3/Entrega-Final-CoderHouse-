@@ -5,8 +5,8 @@ from django.contrib import messages
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Page
-from .forms import PageForm, PageSearchForm
+from .models import Page, Comment
+from .forms import PageForm, PageSearchForm, CommentForm
 
 def home_view(request):
     """Vista de inicio"""
@@ -46,6 +46,28 @@ class PageDetailView(DetailView):
     model = Page
     template_name = 'pages/page_detail.html'
     context_object_name = 'page'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = CommentForm()
+        context['comments'] = self.object.comments.all()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        comment_form = CommentForm(request.POST)
+        
+        if comment_form.is_valid() and request.user.is_authenticated:
+            comment = comment_form.save(commit=False)
+            comment.page = self.object
+            comment.author = request.user
+            comment.save()
+            messages.success(request, 'Comentario agregado correctamente.')
+            return redirect('pages:page_detail', pk=self.object.pk)
+        
+        context = self.get_context_data()
+        context['comment_form'] = comment_form
+        return self.render_to_response(context)
 
 class PageCreateView(LoginRequiredMixin, CreateView):
     """Vista para crear páginas (CBV con mixin)"""

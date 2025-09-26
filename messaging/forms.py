@@ -1,17 +1,40 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Message
+from .models import Message, Conversation
 
 class MessageForm(forms.ModelForm):
     """Formulario para enviar mensajes"""
     class Meta:
         model = Message
-        fields = ['receiver', 'subject', 'content']
+        fields = ['content']
         widgets = {
-            'receiver': forms.Select(attrs={'class': 'form-control'}),
-            'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Asunto del mensaje'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Escribe tu mensaje aquí...'})
+            'content': forms.Textarea(attrs={
+                'class': 'form-control', 
+                'rows': 3, 
+                'placeholder': 'Escribe tu mensaje aquí...',
+                'style': 'border-radius: 1rem; resize: none;'
+            })
         }
+
+class ConversationForm(forms.ModelForm):
+    """Formulario para crear conversaciones"""
+    receiver = forms.ModelChoiceField(
+        queryset=User.objects.none(),
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Selecciona un usuario"
+    )
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control', 
+            'rows': 3, 
+            'placeholder': 'Escribe tu mensaje inicial...',
+            'style': 'border-radius: 1rem; resize: none;'
+        })
+    )
+
+    class Meta:
+        model = Conversation
+        fields = []
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
@@ -19,5 +42,3 @@ class MessageForm(forms.ModelForm):
         if user:
             # Excluir al usuario actual de la lista de destinatarios
             self.fields['receiver'].queryset = User.objects.exclude(id=user.id)
-        else:
-            self.fields['receiver'].queryset = User.objects.all()

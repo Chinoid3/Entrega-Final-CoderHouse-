@@ -1,18 +1,31 @@
 from django.contrib import admin
-from .models import Message
+from .models import Message, Conversation
+
+@admin.register(Conversation)
+class ConversationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'participants_list', 'created_at', 'updated_at']
+    list_filter = ['created_at', 'updated_at']
+    search_fields = ['participants__username']
+    list_per_page = 20
+    date_hierarchy = 'created_at'
+    ordering = ['-updated_at']
+    
+    def participants_list(self, obj):
+        return ', '.join([p.username for p in obj.participants.all()])
+    participants_list.short_description = 'Participantes'
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['subject', 'sender', 'receiver', 'is_read', 'created_at']
-    list_filter = ['is_read', 'created_at', 'sender', 'receiver']
-    search_fields = ['subject', 'content', 'sender__username', 'receiver__username']
+    list_display = ['id', 'sender', 'conversation', 'is_read', 'created_at']
+    list_filter = ['is_read', 'created_at', 'sender']
+    search_fields = ['content', 'sender__username']
     list_per_page = 20
     date_hierarchy = 'created_at'
     ordering = ['-created_at']
     
     fieldsets = (
         ('Información del Mensaje', {
-            'fields': ('sender', 'receiver', 'subject')
+            'fields': ('sender', 'conversation')
         }),
         ('Contenido', {
             'fields': ('content',)
