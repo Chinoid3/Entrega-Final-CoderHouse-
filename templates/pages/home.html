@@ -3,73 +3,140 @@
 {% block title %}Inicio - Mi Blog{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <div class="container text-center">
-        <h1 class="display-4">¡Bienvenido a Mi Blog!</h1>
-        <p class="lead">Un espacio para compartir ideas, experiencias y conocimientos</p>
-        <a href="{% url 'pages:page_list' %}" class="btn btn-light btn-lg mt-3">
-            <i class="fas fa-book-open"></i> Explorar Páginas
-        </a>
-    </div>
-</div>
-
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow">
-                <div class="card-body text-center">
-                    <h2 class="card-title">¿Qué encontrarás aquí?</h2>
-                    <div class="row mt-4">
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0">
-                                <div class="card-body">
-                                    <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
-                                    <h5>Páginas Interesantes</h5>
-                                    <p class="text-muted">Artículos y contenido sobre diversos temas</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0">
-                                <div class="card-body">
-                                    <i class="fas fa-users fa-3x text-success mb-3"></i>
-                                    <h5>Comunidad</h5>
-                                    <p class="text-muted">Conecta con otros usuarios y comparte ideas</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card border-0">
-                                <div class="card-body">
-                                    <i class="fas fa-envelope fa-3x text-info mb-3"></i>
-                                    <h5>Mensajería</h5>
-                                    <p class="text-muted">Comunícate directamente con otros usuarios</p>
-                                </div>
-                            </div>
+        <!-- Sidebar izquierdo -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="sticky-top" style="top: 2rem;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Explorar</h5>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'pages:page_list' %}" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Feed
+                            </a>
+                            <a href="{% url 'pages:page_create' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-plus"></i> Crear Post
+                            </a>
+                            <a href="{% url 'pages:about' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-user"></i> Acerca de mí
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {% if not user.is_authenticated %}
-    <div class="row mt-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <div class="card border-primary">
-                <div class="card-body">
-                    <h3 class="card-title text-primary">¿Eres nuevo aquí?</h3>
-                    <p class="card-text">Únete a nuestra comunidad para crear y compartir contenido</p>
-                    <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg me-3">
-                        <i class="fas fa-user-plus"></i> Registrarse
-                    </a>
-                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+        <!-- Contenido principal -->
+        <div class="col-lg-6">
+            <!-- Header móvil -->
+            <div class="d-lg-none mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="h4 mb-0">Inicio</h2>
+                    <a href="{% url 'pages:page_create' %}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Post
                     </a>
                 </div>
             </div>
+
+            <!-- Hero section moderno -->
+            <div class="text-center py-5 mb-4">
+                <h1 class="display-6 fw-bold mb-3">¡Bienvenido a nuestra comunidad!</h1>
+                <p class="lead text-muted mb-4">Comparte ideas, conecta con otros y descubre contenido increíble</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{% url 'pages:page_list' %}" class="btn btn-primary btn-lg" style="border-radius: 2rem;">
+                        <i class="fas fa-home"></i> Ver Feed
+                    </a>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary btn-lg" style="border-radius: 2rem;">
+                            <i class="fas fa-user-plus"></i> Únete
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Features cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-feather-alt fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Posts Dinámicos</h5>
+                            <p class="card-text text-muted">Comparte ideas, experiencias y conocimientos con la comunidad</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-users fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">Comunidad Activa</h5>
+                            <p class="card-text text-muted">Conecta con otros usuarios y participa en conversaciones</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-comments fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title">Mensajería</h5>
+                            <p class="card-text text-muted">Comunícate directamente con otros miembros</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if not user.is_authenticated %}
+            <div class="card border-0 bg-light">
+                <div class="card-body text-center py-5">
+                    <h3 class="card-title mb-3">¿Eres nuevo aquí?</h3>
+                    <p class="card-text text-muted mb-4">Únete a nuestra comunidad para crear y compartir contenido</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg" style="border-radius: 2rem;">
+                            <i class="fas fa-user-plus"></i> Registrarse
+                        </a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg" style="border-radius: 2rem;">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar derecho -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="sticky-top" style="top: 2rem;">
+                {% if user.is_authenticated %}
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                {% if user.userprofile.avatar %}
+                                    <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.username }}" 
+                                         class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white mx-auto" 
+                                         style="width: 60px; height: 60px;">
+                                        {{ user.username|first|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <h6 class="card-title mb-1">@{{ user.username }}</h6>
+                            <p class="text-muted small mb-3">{{ user.userprofile.bio|truncatechars:50 }}</p>
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-outline-primary btn-sm" style="border-radius: 2rem;">
+                                Ver perfil
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}

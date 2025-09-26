@@ -5,8 +5,6 @@ app_name = 'messaging'
 
 urlpatterns = [
     path('', views.message_list, name='message_list'),
-    path('inbox/', views.InboxView.as_view(), name='inbox'),
-    path('sent/', views.SentMessagesView.as_view(), name='sent'),
-    path('send/', views.MessageCreateView.as_view(), name='send'),
-    path('message/<int:pk>/', views.MessageDetailView.as_view(), name='detail'),
+    path('conversation/<int:conversation_id>/', views.conversation_detail, name='conversation'),
+    path('start/', views.start_conversation, name='start_conversation'),
 ]

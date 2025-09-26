@@ -19,3 +19,19 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    """Modelo para comentarios en posts"""
+    page = models.ForeignKey(Page, on_delete=models.CASCADE, related_name='comments', verbose_name="Post")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Autor")
+    content = models.TextField(verbose_name="Comentario")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualización")
+
+    class Meta:
+        verbose_name = "Comentario"
+        verbose_name_plural = "Comentarios"
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"Comentario de {self.author.username} en {self.page.title}"

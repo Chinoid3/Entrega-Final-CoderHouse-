@@ -17,14 +17,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 text-center mb-4">
-                            <img src="https://via.placeholder.com/200x200/007bff/ffffff?text=Mi+Foto" 
-                                 alt="Mi Foto" class="img-fluid rounded-circle shadow">
                         </div>
                         <div class="col-md-8">
-                            <h2 class="card-title">Hola, soy el creador de este blog</h2>
+                            <h2 class="card-title">Hola, soy Alejo Bea y este es mi proyecto final.</h2>
                             <p class="card-text lead">
-                                Bienvenido/a a mi espacio personal en la web. Aquí comparto mis pensamientos, 
-                                experiencias y conocimientos sobre diversos temas que me apasionan.
+                                Bienvenidos a este blog, espero que disfruten de mi proyecto final de python para CoderHouse
                             </p>
                         </div>
                     </div>
@@ -36,18 +33,18 @@
                             <h4><i class="fas fa-heart text-danger"></i> Mis Pasiones</h4>
                             <ul class="list-unstyled">
                                 <li><i class="fas fa-check text-success"></i> La tecnología y la programación</li>
-                                <li><i class="fas fa-check text-success"></i> La escritura y la comunicación</li>
-                                <li><i class="fas fa-check text-success"></i> Aprender cosas nuevas cada día</li>
-                                <li><i class="fas fa-check text-success"></i> Compartir conocimiento con otros</li>
+                                <li><i class="fas fa-check text-success"></i> El futbol</li>
+                                <li><i class="fas fa-check text-success"></i> La cocina</li>
+                                <li><i class="fas fa-check text-success"></i> Los videojuegos</li>
                             </ul>
                         </div>
                         <div class="col-md-6">
                             <h4><i class="fas fa-graduation-cap text-primary"></i> Mis Objetivos</h4>
                             <ul class="list-unstyled">
-                                <li><i class="fas fa-star text-warning"></i> Crear contenido de calidad</li>
-                                <li><i class="fas fa-star text-warning"></i> Construir una comunidad activa</li>
-                                <li><i class="fas fa-star text-warning"></i> Ayudar a otros en su aprendizaje</li>
-                                <li><i class="fas fa-star text-warning"></i> Crecer profesionalmente</li>
+                                <li><i class="fas fa-star text-warning"></i> Crear una pagina funcional para el proyecto de CoderHouse</li>
+                                <li><i class="fas fa-star text-warning"></i> Crear posts como si fuese una red social</li>
+                                <li><i class="fas fa-star text-warning"></i> Crear un sistema de mensajería</li>
+                                <li><i class="fas fa-star text-warning"></i> Crear un sistema de registro de usuarios</li>
                             </ul>
                         </div>
                     </div>
@@ -57,7 +54,7 @@
                     <div class="text-center">
                         <h4>¿Te gustaría conectar?</h4>
                         <p class="text-muted">
-                            Si tienes alguna pregunta, sugerencia o simplemente quieres charlar, 
+                            Si tienes alguna pregunta, sugerencia o simplemente queres charlar, 
                             no dudes en contactarme a través de la sección de mensajes.
                         </p>
                         {% if user.is_authenticated %}
@@ -66,7 +63,7 @@
                             </a>
                         {% else %}
                             <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-user-plus"></i> Únete para Conectar
+                                <i class="fas fa-user-plus"></i> Registrate para Conectar
                             </a>
                         {% endif %}
                     </div>

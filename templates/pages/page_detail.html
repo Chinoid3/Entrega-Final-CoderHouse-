@@ -3,64 +3,158 @@
 {% block title %}{{ page.title }} - Mi Blog{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow">
-                {% if page.image %}
-                    <img src="{{ page.image.url }}" class="card-img-top" alt="{{ page.title }}" 
-                         style="height: 400px; object-fit: cover;">
-                {% endif %}
-                
-                <div class="card-body">
-                    <h1 class="card-title display-4">{{ page.title }}</h1>
-                    <h2 class="card-subtitle text-muted h4">{{ page.subtitle }}</h2>
-                    
-                    <hr class="my-4">
-                    
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
-                            <small class="text-muted">
-                                <i class="fas fa-user"></i> Por {{ page.author.username }}
-                            </small>
-                            <small class="text-muted ms-3">
-                                <i class="fas fa-calendar"></i> {{ page.created_at|date:"d/m/Y H:i" }}
-                            </small>
+        <!-- Sidebar izquierdo -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="sticky-top" style="top: 2rem;">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Explorar</h5>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'pages:page_list' %}" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Feed
+                            </a>
+                            <a href="{% url 'pages:page_create' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-plus"></i> Crear Post
+                            </a>
                         </div>
-                        {% if page.updated_at != page.created_at %}
-                            <small class="text-muted">
-                                <i class="fas fa-edit"></i> Actualizado: {{ page.updated_at|date:"d/m/Y H:i" }}
-                            </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="col-lg-6">
+            <!-- Post principal -->
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">
+                        {% if page.author.userprofile.avatar %}
+                            <img src="{{ page.author.userprofile.avatar.url }}" alt="{{ page.author.username }}" class="post-avatar">
+                        {% else %}
+                            <div class="post-avatar bg-primary d-flex align-items-center justify-content-center text-white">
+                                {{ page.author.username|first|upper }}
+                            </div>
                         {% endif %}
                     </div>
-                    
-                    <div class="content">
-                        {{ page.content|safe }}
+                    <div>
+                        <h6 class="post-author">@{{ page.author.username }}</h6>
+                        <p class="post-date">{{ page.created_at|timesince }} ago</p>
                     </div>
-                    
+                </div>
+                
+                <h2 class="post-title">{{ page.title }}</h2>
+                <p class="post-subtitle">{{ page.subtitle }}</p>
+                
+                {% if page.image %}
+                    <img src="{{ page.image.url }}" alt="{{ page.title }}" class="post-image">
+                {% endif %}
+                
+                <div class="content mt-3">
+                    {{ page.content|safe }}
+                </div>
+                
+                <div class="post-actions">
+                    <a href="{% url 'pages:page_list' %}" class="post-action">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Volver al feed</span>
+                    </a>
                     {% if user.is_authenticated and user == page.author %}
-                        <hr class="my-4">
-                        <div class="d-flex justify-content-center">
-                            <a href="{% url 'pages:page_edit' page.pk %}" class="btn btn-warning me-2">
-                                <i class="fas fa-edit"></i> Editar Página
-                            </a>
-                            <a href="{% url 'pages:page_delete' page.pk %}" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Eliminar Página
-                            </a>
+                        <a href="{% url 'pages:page_edit' page.pk %}" class="post-action">
+                            <i class="far fa-edit"></i>
+                            <span>Editar</span>
+                        </a>
+                        <a href="{% url 'pages:page_delete' page.pk %}" class="post-action">
+                            <i class="far fa-trash-alt"></i>
+                            <span>Eliminar</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Comentarios -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-comments"></i> Comentarios ({{ comments.count }})
+                    </h5>
+                    
+                    {% if user.is_authenticated %}
+                        <!-- Formulario de comentario -->
+                        <form method="post" class="mb-4">
+                            {% csrf_token %}
+                            <div class="d-flex gap-2">
+                                <div class="flex-grow-1">
+                                    {{ comment_form.content }}
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="border-radius: 2rem; height: fit-content;">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <a href="{% url 'accounts:login' %}">Inicia sesión</a> para comentar
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Lista de comentarios -->
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="d-flex gap-3 mb-3 p-3 border rounded" style="border-radius: 1rem !important;">
+                                <div class="post-avatar">
+                                    {% if comment.author.userprofile.avatar %}
+                                        <img src="{{ comment.author.userprofile.avatar.url }}" alt="{{ comment.author.username }}" class="post-avatar">
+                                    {% else %}
+                                        <div class="post-avatar bg-secondary d-flex align-items-center justify-content-center text-white">
+                                            {{ comment.author.username|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <strong class="post-author">@{{ comment.author.username }}</strong>
+                                        <small class="text-muted">{{ comment.created_at|timesince }} ago</small>
+                                    </div>
+                                    <p class="mb-0">{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center text-muted py-4">
+                            <i class="fas fa-comment-slash fa-2x mb-2"></i>
+                            <p>No hay comentarios aún. ¡Sé el primero en comentar!</p>
                         </div>
                     {% endif %}
                 </div>
             </div>
-            
-            <!-- Navegación -->
-            <div class="text-center mt-4">
-                <a href="{% url 'pages:page_list' %}" class="btn btn-outline-primary">
-                    <i class="fas fa-arrow-left"></i> Volver a Páginas
-                </a>
+        </div>
+
+        <!-- Sidebar derecho -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="sticky-top" style="top: 2rem;">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'pages:page_create' %}" class="btn btn-primary ms-2">
-                        <i class="fas fa-plus"></i> Crear Nueva Página
-                    </a>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                {% if user.userprofile.avatar %}
+                                    <img src="{{ user.userprofile.avatar.url }}" alt="{{ user.username }}" 
+                                         class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                                {% else %}
+                                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white mx-auto" 
+                                         style="width: 60px; height: 60px;">
+                                        {{ user.username|first|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <h6 class="card-title mb-1">@{{ user.username }}</h6>
+                            <p class="text-muted small mb-3">{{ user.userprofile.bio|truncatechars:50 }}</p>
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-outline-primary btn-sm" style="border-radius: 2rem;">
+                                Ver perfil
+                            </a>
+                        </div>
+                    </div>
                 {% endif %}
             </div>
         </div>
