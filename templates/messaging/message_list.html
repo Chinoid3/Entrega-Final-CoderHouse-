@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Mensajes - Mi Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-envelope"></i> Mis Mensajes</h2>
+                <a href="{% url 'messaging:send' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nuevo Mensaje
+                </a>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0"><i class="fas fa-inbox"></i> Mensajes Recibidos</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if received_messages %}
+                                {% for message in received_messages %}
+                                    <div class="border-bottom pb-2 mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>{{ message.sender.username }}</strong>
+                                            <small class="text-muted">{{ message.created_at|date:"d/m/Y H:i" }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ message.subject }}</p>
+                                        <small class="text-muted">
+                                            {{ message.content|truncatechars:50 }}
+                                            <a href="{% url 'messaging:detail' message.pk %}" class="ms-2">Leer más</a>
+                                        </small>
+                                        {% if not message.is_read %}
+                                            <span class="badge bg-primary ms-2">Nuevo</span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No tienes mensajes recibidos.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="fas fa-paper-plane"></i> Mensajes Enviados</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if sent_messages %}
+                                {% for message in sent_messages %}
+                                    <div class="border-bottom pb-2 mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>{{ message.receiver.username }}</strong>
+                                            <small class="text-muted">{{ message.created_at|date:"d/m/Y H:i" }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ message.subject }}</p>
+                                        <small class="text-muted">
+                                            {{ message.content|truncatechars:50 }}
+                                            <a href="{% url 'messaging:detail' message.pk %}" class="ms-2">Ver</a>
+                                        </small>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No has enviado ningún mensaje.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

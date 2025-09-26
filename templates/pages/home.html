@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - Mi Blog{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container text-center">
+        <h1 class="display-4">¡Bienvenido a Mi Blog!</h1>
+        <p class="lead">Un espacio para compartir ideas, experiencias y conocimientos</p>
+        <a href="{% url 'pages:page_list' %}" class="btn btn-light btn-lg mt-3">
+            <i class="fas fa-book-open"></i> Explorar Páginas
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h2 class="card-title">¿Qué encontrarás aquí?</h2>
+                    <div class="row mt-4">
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                                    <h5>Páginas Interesantes</h5>
+                                    <p class="text-muted">Artículos y contenido sobre diversos temas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-users fa-3x text-success mb-3"></i>
+                                    <h5>Comunidad</h5>
+                                    <p class="text-muted">Conecta con otros usuarios y comparte ideas</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <i class="fas fa-envelope fa-3x text-info mb-3"></i>
+                                    <h5>Mensajería</h5>
+                                    <p class="text-muted">Comunícate directamente con otros usuarios</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card border-primary">
+                <div class="card-body">
+                    <h3 class="card-title text-primary">¿Eres nuevo aquí?</h3>
+                    <p class="card-text">Únete a nuestra comunidad para crear y compartir contenido</p>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-user-plus"></i> Registrarse
+                    </a>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

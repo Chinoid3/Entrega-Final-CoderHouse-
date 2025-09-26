@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ message.subject }} - Mi Blog{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2 class="card-title mb-0">
+                        <i class="fas fa-envelope-open"></i> {{ message.subject }}
+                    </h2>
+                </div>
+                
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong><i class="fas fa-user"></i> De:</strong> {{ message.sender.username }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong><i class="fas fa-user"></i> Para:</strong> {{ message.receiver.username }}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong><i class="fas fa-calendar"></i> Fecha:</strong> 
+                            {{ message.created_at|date:"d/m/Y H:i" }}
+                        </div>
+                        <div class="col-md-6">
+                            {% if message.receiver == request.user %}
+                                {% if message.is_read %}
+                                    <span class="badge bg-success"><i class="fas fa-check"></i> Leído</span>
+                                {% else %}
+                                    <span class="badge bg-warning"><i class="fas fa-clock"></i> No leído</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="message-content">
+                        {{ message.content|linebreaks }}
+                    </div>
+                </div>
+                
+                <div class="card-footer text-center">
+                    <a href="{% url 'messaging:message_list' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left"></i> Volver a Mensajes
+                    </a>
+                    <a href="{% url 'messaging:send' %}?reply={{ message.sender.id }}" class="btn btn-primary">
+                        <i class="fas fa-reply"></i> Responder
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.message-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+</style>
+{% endblock %}

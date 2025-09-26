@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar Página{% else %}Crear Página{% endif %} - Mi Blog
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2 class="card-title mb-0">
+                        <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus{% endif %}"></i>
+                        {% if form.instance.pk %}Editar Página{% else %}Crear Nueva Página{% endif %}
+                    </h2>
+                </div>
+                
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">
+                                <i class="fas fa-heading"></i> Título *
+                            </label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.title.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.subtitle.id_for_label }}" class="form-label">
+                                <i class="fas fa-subscript"></i> Subtítulo *
+                            </label>
+                            {{ form.subtitle }}
+                            {% if form.subtitle.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.subtitle.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.content.id_for_label }}" class="form-label">
+                                <i class="fas fa-align-left"></i> Contenido *
+                            </label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.content.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.image.id_for_label }}" class="form-label">
+                                <i class="fas fa-image"></i> Imagen
+                                {% if form.instance.pk and form.instance.image %}
+                                    <span class="text-muted">(Actual: {{ form.instance.image.name }})</span>
+                                {% endif %}
+                            </label>
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.image.errors %}
+                                        <small>{{ error }}</small>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="form-text">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB.</div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'pages:page_list' %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                {% if form.instance.pk %}Actualizar Página{% else %}Crear Página{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_css %}
+<style>
+    .form-control {
+        border-radius: 0.5rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .django-ckeditor-widget {
+        width: 100%;
+    }
+</style>
+{% endblock %}
+{% endblock %}
